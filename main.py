@@ -119,7 +119,32 @@ print(NamePump)
 print(ArtPump)
 print(PricePump)
 ##
+###
+infoRow_list=driver.find_elements_by_xpath(".//a[@class='mpMenuItemLbl']")#элементы списка "Информация"
+infoRow_list[1].click()#выбор жлемента "Описнаие продукта"
 
+wait.until(EC.element_to_be_clickable((By.XPATH,".//span[contains(text(),'Номинальная частота вращения')]/following-sibling::span")))#ждем появления списка
+
+Speed_of_rotation=driver.find_element_by_xpath(".//span[contains(text(),'Номинальная частота вращения')]/following-sibling::span").text
+Rated_power=driver.find_element_by_xpath(".//span[contains(text(),'Номинальная мощность')]/following-sibling::span").text
+Current=driver.find_element_by_xpath(".//span[contains(text(),'Номинальный ток')]/following-sibling::span").text
+Power_Factor=driver.find_element_by_xpath(".//span[contains(text(),'Коэффициент мощности')]/following-sibling::span").text
+Efficiency_50=driver.find_element_by_xpath(".//span[contains(text(),'ηm 50')]/following-sibling::span").text
+Efficiency_75=driver.find_element_by_xpath(".//span[contains(text(),'ηm 75')]/following-sibling::span").text
+Efficiency_100= driver.find_element_by_xpath(".//span[contains(text(),'ηm 100')]/following-sibling::span").text
+
+print(Speed_of_rotation)
+print(Rated_power)
+print(Current)
+print(Power_Factor)
+print(Efficiency_50)
+print(Efficiency_75)
+print(Efficiency_100)
+
+infoRow_list=driver.find_elements_by_xpath(".//a[@class='mpMenuItemLbl']")#элементы списка "Информация"
+infoRow_list[0].click()#выбор жлемента "Кривые насосов"
+
+###
 print("введите название файла")
 filename= input()
 Exel_format(filename)
@@ -146,9 +171,47 @@ for pump in pump_list:
         ".//tr[ contains(@class, 'rgSelectedRow')]//div[@ class ='gridValueDivInner ARTNR']").get_attribute("title")
     PricePump = driver.find_element_by_xpath(
         ".//tr[ contains(@class, 'rgSelectedRow')]//div[@class='gridValueDivInner FITTPRICE' ]").get_attribute("title")
+
     print(NamePump)
     print(ArtPump)
     print(PricePump)
+
+
+    infoRow_list=driver.find_elements_by_xpath(".//a[@class='mpMenuItemLbl']")#элементы списка "Информация"
+    infoRow_list[1].click()#выбор жлемента "Описнаие продукта"
+
+    sleep(5)
+   # wait.until(EC.elementIsVisible((By.XPATH,".//span[contains(text(),'Номинальная частота вращения')]/following-sibling::span")))  # ждем появления списка
+    Speed_of_rotation=driver.find_element_by_xpath(".//span[contains(text(),'Номинальная частота вращения')]/following-sibling::span").text
+
+   # wait.until(EC.ElementIsVisible((By.XPATH, ".//span[contains(text(),'Номинальная мощность')]/following-sibling::span")))
+    Rated_power=driver.find_element_by_xpath(".//span[contains(text(),'Номинальная мощность')]/following-sibling::span").text
+
+    #wait.until(EC.ElementIsVisible((By.XPATH, ".//span[contains(text(),'Номинальный ток')]/following-sibling::span")))
+    Current=driver.find_element_by_xpath(".//span[contains(text(),'Номинальный ток')]/following-sibling::span").text
+
+   # wait.until(EC.ElementIsVisible((By.XPATH, ".//span[contains(text(),'Коэффициент мощности')]/following-sibling::span")))
+    Power_Factor=driver.find_element_by_xpath(".//span[contains(text(),'Коэффициент мощности')]/following-sibling::span").text
+
+   # wait.until(EC.ElementIsVisible((By.XPATH, ".//span[contains(text(),'ηm 50')]/following-sibling::span")))
+    Efficiency_50=driver.find_element_by_xpath(".//span[contains(text(),'ηm 50')]/following-sibling::span").text
+
+   # wait.until(EC.ElementIsVisible((By.XPATH, ".//span[contains(text(),'ηm 75')]/following-sibling::span")))
+    Efficiency_75=driver.find_element_by_xpath(".//span[contains(text(),'ηm 75')]/following-sibling::span").text
+
+  #  wait.until(EC.ElementIsVisible((By.XPATH, ".//span[contains(text(),'ηm 100')]/following-sibling::span")))
+    Efficiency_100= driver.find_element_by_xpath(".//span[contains(text(),'ηm 100')]/following-sibling::span").text
+
+    print(Speed_of_rotation)
+    print(Rated_power)
+    print(Current)
+    print(Power_Factor)
+    print(Efficiency_50)
+    print(Efficiency_75)
+    print(Efficiency_100)
+
+    infoRow_list = driver.find_elements_by_xpath(".//a[@class='mpMenuItemLbl']")  # элементы списка "Информация"
+    infoRow_list[0].click()#выбор жлемента "Кривые насосов"
 
     ##
     print("введите название файла")
@@ -158,7 +221,14 @@ for pump in pump_list:
     Exel_format(filename)
     ##
 
+##TODO 1)закинуть данные в функцию экселя,
+# TODO 2)сделать ввод с консоли данных с графиков
+# TODO 3) Настроить папку загрузок и папку взятия
+# TODO 4) Удалить лишнии листы
+# TODO 5) Переименовать файлы
 
+
+##
 #//div[text()=’Тема’]/parent::div
 #6Cr-Sc8-Lir-inc
 #gitvanya34
