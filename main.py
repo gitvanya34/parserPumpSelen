@@ -9,6 +9,7 @@ import win32com.client
 
 import openpyxl
 
+##IL 150/335-45/4 конец
 
 Excel = win32com.client.Dispatch("Excel.Application")
 from selenium.webdriver.common.keys import Keys
@@ -16,8 +17,7 @@ from selenium.webdriver.common.keys import Keys
 
 def Exel_format(filename, NamePump, ArtPump, PricePump, Speed_of_rotation, Rated_power, Current, Power_Factor,
                 Efficiency_50, Efficiency_75, Efficiency_100):
-    wb_in = Excel.Workbooks.Open(
-        u'D:\\gomno\\рабочий стол старая ос\\учеба\\7 семестр\\шабашка\\Итог\\' + filename + '.Xlsx')
+    wb_in = Excel.Workbooks.Open(filename)
     sheet = wb_in.ActiveSheet
 
 
@@ -28,6 +28,18 @@ def Exel_format(filename, NamePump, ArtPump, PricePump, Speed_of_rotation, Rated
     vals4 = [r[0].value for r in sheet.Range("E5:E100")]
     vals5 = [r[0].value for r in sheet.Range("F5:F100")]
 
+    #поиск максимального кпд
+    buf = vals4
+    vals4=[]
+    for i in buf:
+        if i != None:
+            vals4.append(i)
+    print(vals4)
+    eta_bep = max(vals4)
+    Q_bep=vals1[vals4.index(max(vals4))]
+
+    eta_bep=float("{0:.2f}".format(eta_bep))
+    Q_bep=float("{0:.2f}".format(Q_bep))
     # # очистка поля
     # for i in range(1, 10):
     #     for j in range(1, 100):
@@ -129,9 +141,11 @@ def Exel_format(filename, NamePump, ArtPump, PricePump, Speed_of_rotation, Rated
     sheet.Cells(8, 19).value = Efficiency_100
     # Current,Power_Factor,Efficiency_50,Efficiency_75,Efficiency_100
     print("Введите Q_bep")
-    sheet.Cells(8, 7).value = input()
+    sheet.Cells(8, 7).value = Q_bep
+    print(Q_bep)
     print("Введите eta_bep")
-    sheet.Cells(8, 8).value = input()
+    sheet.Cells(8, 8).value = eta_bep
+    print(eta_bep)
     print("Введите Q_min")
     sheet.Cells(8, 10).value = input()
     print("Введите Q_max")
@@ -170,6 +184,16 @@ def Exel_format(filename, NamePump, ArtPump, PricePump, Speed_of_rotation, Rated
     # закрываем COM объект
     Excel.Quit()
 
+
+def lasf_file():
+    import os
+    path = u'D:\\gomno\\рабочий стол старая ос\\учеба\\7 семестр\\шабашка\\Итог\\'
+    files = os.listdir(path)
+    files = [os.path.join(path, file) for file in files]
+    files = [file for file in files if os.path.isfile(file)]
+    name=max(files, key=os.path.getmtime)
+    print(name)
+    return name
 
 driver = webdriver.Chrome(
     'D:\\gomno\\рабочий стол старая ос\\учеба\\7 семестр\\шабашка\\chromedriver_win32 (1)\\chromedriver.exe')
@@ -244,12 +268,11 @@ if start_num==1:
 
     ###
     print("введите название файла")
-    filename = input()
+    filename = lasf_file()
     Exel_format(filename, NamePump, ArtPump, PricePump, Speed_of_rotation, Rated_power, Current, Power_Factor,
                 Efficiency_50, Efficiency_75, Efficiency_100)
 # переход на следующую строку
 pump_list = driver.find_elements_by_xpath(".//*[@class='rgRow rgEven' or @class='rgRow rgOdd']")
-
 
 count_element=1
 for pump in pump_list:
@@ -323,7 +346,8 @@ for pump in pump_list:
 
         ##
         print("введите название файла")
-        filename = input()
+
+        filename = lasf_file()
         # print(filename)
 
         Exel_format(filename, NamePump, ArtPump, PricePump, Speed_of_rotation, Rated_power, Current, Power_Factor,
