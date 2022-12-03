@@ -363,8 +363,6 @@ for pump in pump_list:
 
 ##
 # //div[text()=’Тема’]/parent::div
-# 6Cr-Sc8-Lir-inc
-# gitvanya34
 # .//input[@name='loginName']
 # .//input[@name='loginPassword']
 # driver.close()
